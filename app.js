@@ -20,14 +20,30 @@ wxApp.config(function($routeProvider) {
 });
 
 /*
+ * Services.
+ */
+wxApp.service('cityService', function() {
+  this.city = 'Boston, MA';
+});
+
+
+/*
  * Controllers.
  */
-wxApp.controller('homeController', ['$scope', function($scope) {
+wxApp.controller('homeController', ['$scope', 'cityService',
+  function($scope, cityService) {
 
+    $scope.city = cityService.city;
+
+    $scope.$watch('city', function() {
+      cityService.city = $scope.city;
+    });
 
 }]);
 
-wxApp.controller('forecastController', ['$scope', function($scope) {
+wxApp.controller('forecastController', ['$scope', 'cityService',
+  function($scope, cityService) {
 
+    $scope.city = cityService.city;
 
 }]);
