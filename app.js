@@ -17,6 +17,10 @@ wxApp.config(function($routeProvider) {
       templateUrl: 'pages/forecast.html',
       controller: 'forecastController'
     })
+    .when('/forecast/:days', {
+      templateUrl: 'pages/forecast.html',
+      controller: 'forecastController'
+    })
 });
 
 /*
@@ -41,10 +45,12 @@ wxApp.controller('homeController', ['$scope', 'cityService',
 
 }]);
 
-wxApp.controller('forecastController', ['$scope', '$resource', 'cityService',
-  function($scope, $resource, cityService) {
+wxApp.controller('forecastController', ['$scope', '$resource', '$routeParams', 'cityService',
+  function($scope, $resource, $routeParams, cityService) {
 
     $scope.city = cityService.city;
+
+    $scope.days = $routeParams.days || 3;
 
     $scope.weatherAPI =
       $resource('http://api.openweathermap.org/data/2.5/forecast/daily', {
@@ -53,7 +59,7 @@ wxApp.controller('forecastController', ['$scope', '$resource', 'cityService',
 
     $scope.weatherResult = $scope.weatherAPI.get({
       q: $scope.city,
-      cnt: 2
+      cnt: $scope.days
     });
 
     $scope.convertToFahrenheit = function(degK) {
