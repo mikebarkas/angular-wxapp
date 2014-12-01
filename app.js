@@ -56,6 +56,8 @@ wxApp.controller('forecastController', ['$scope', '$resource', 'cityService',
       cnt: 2
     });
 
-    console.log($scope.weatherResult);
+    $scope.convertToFahrenheit = function(degK) {
+      return Math.round((1.8 * (degK - 273)) + 32);
+    }
 
 }]);
